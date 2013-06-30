@@ -93,9 +93,14 @@ body{
 	color: #003;
 	}
 
-#data .class{
+#data .object{
 	color: #060;
 	}
-	
+
+#data .unknown{
+	color: #404;
+	}
+
+
 	
 	

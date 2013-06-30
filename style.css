@@ -73,7 +73,7 @@ body{
 	color: #C00;
 	}
 
-#data .int{
+#data .int, #data .number{
 	color: #006;
 	}
 	
@@ -95,6 +95,10 @@ body{
 
 #data .object{
 	color: #060;
+	}
+
+#data .resource{
+	color: #404;
 	}
 
 #data .unknown{

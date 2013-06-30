@@ -1,0 +1,101 @@
+body{
+	margin:0;
+	padding:0;
+	}
+	
+.header{
+	width: 100%;
+	background-color: #CDF;
+	height: 40px;
+	}
+
+.session_spy{
+	position: relative;
+	top: 5px;
+	left: 10px;
+	font-size: 24px;
+	font-weight: bold;
+	}
+
+.me{
+	float: right;
+	position: relative;
+	top: 8px;
+	right: 5px;
+	}
+
+.ui-layout-west, .ui-layout-center{
+	padding: 0;
+	}
+
+#id_search{   
+	font-family: monospace;
+    font-size: 16px;
+    margin-top: 8px;
+    width: 100%;
+	}
+
+#list{
+	list-style: none;
+	font-family: monospace;
+	}
+
+#list .item{
+	padding:5px 5px 5px 10px;
+	}
+
+#list .item:hover{
+	background-color: #CDF;
+	cursor: pointer;
+	}
+
+#list .item.active{
+	background-color: #DFC;
+	}
+
+
+	
+#data  .more{
+	cursor: pointer;
+	}
+
+#data  .key.more:before{
+	content: '+';
+	display: inline-block;
+	}
+
+#data .key{
+	color: #060;
+	font-weight: bold;
+	}
+
+#data .string{
+	color: #C00;
+	}
+
+#data .int{
+	color: #006;
+	}
+	
+#data .float{
+	color: #069;
+	}
+
+#data .array{
+	color: #A55;/*hehe*/
+	}
+
+#data .bool{
+	color: #066;
+	}
+
+#data .null{
+	color: #003;
+	}
+
+#data .class{
+	color: #060;
+	}
+	
+	
+	

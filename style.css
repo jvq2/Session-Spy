@@ -2,17 +2,11 @@ body{
 	margin:0;
 	padding:0;
 	}
-	
-.header{
-	width: 100%;
-	background-color: #CDF;
-	height: 40px;
-	}
 
 .session_spy{
 	position: relative;
-	top: 5px;
-	left: 10px;
+	top: 10px;
+	left: 20px;
 	font-size: 24px;
 	font-weight: bold;
 	}
@@ -24,9 +18,20 @@ body{
 	right: 5px;
 	}
 
-.ui-layout-west, .ui-layout-center{
+.header{
+	width: 100%;
+	background-color: #CDF;
+	height: 40px;
+	}
+
+.ui-layout-north{
+	background-color: #CDF;
+	}
+
+.ui-layout-west, .ui-layout-center, .ui-layout-north{
 	padding: 0;
 	}
+
 
 #id_search{   
 	font-family: monospace;
@@ -34,6 +39,8 @@ body{
     margin-top: 8px;
     width: 100%;
 	}
+
+
 
 #list{
 	list-style: none;
@@ -54,20 +61,12 @@ body{
 	}
 
 
+
 	
 #data  .more{
 	cursor: pointer;
 	}
 
-#data  .key.more:before{
-	content: '+';
-	display: inline-block;
-	}
-
-#data .key{
-	color: #060;
-	font-weight: bold;
-	}
 
 #data .string{
 	color: #C00;
@@ -106,5 +105,22 @@ body{
 	}
 
 
-	
+#data  .key.more:before{
+	content: '+';
+	display: inline-block;
+	}
+
+#data .key{
+	font-weight: bold;
+	width: 160px;
+	display: inline-block;
+	overflow: hidden;
+	}
+
+#data .key.string{
+	color: #060;
+	}
+#data .key.number{
+	color: #900;
+	}
 	

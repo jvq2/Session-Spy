@@ -16,7 +16,8 @@
 	<title>Session Spy</title>
 </head>
 <body>
-	<div class="ui-layout-north header"><span class="session_spy">Session Spy</span>
+	<div class="ui-layout-north header">
+		<span class="session_spy">Session Spy</span>
 		<span class="me"><b>me:</b> <?php echo session_id();?></span>
 	</div>
 	

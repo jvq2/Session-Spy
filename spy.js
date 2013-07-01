@@ -9,16 +9,45 @@ $(function(){
 		});
 	
 	
+	
+	function update_view_h(data, view){
+		$.each(data, function(key, value){
+			switch(value['type']){
+				case 'array':
+					var new_view = $('<ul></ul>');
+					update_view_h(value['value'], new_view);
+					
+					var ele = $('<li><span class="key '+typeof value['key']+'" title="'+typeof value['key']+'">'+value['key']+'</span><span class="array" title="array"><a href="#" class="more">[...]</a></span></li>');
+					$('.array', ele).append(new_view);
+					view.append(ele);
+					break;
+				default:
+					view.append('<li><span class="key '+typeof value['key']+'" title="'+typeof value['key']+'">'+value['key']+'</span><span class="'+value['type']+'" title="'+value['type']+'">'+value['value']+'</span></li>');
+				}
+			
+			});
+		}
+	
 	function update_view(data){
 		var view = $('.ui-layout-center');
+		
+		if(!data['success']){
+			data['error'] = data['error'] ? data['error'] : "Unknown";
+			$('#data', view).html(
+								'<b><i>Could not fetch '+
+								'session data. Error: '+data['error']+
+								'</i></b>');
+			return;
+			}
+		
 		$('.header', view).html(data['session_id']);
 		
 		view = $('#data', view);
 		
 		view.empty();
-		$.each(data['session'], function(key, value){
-			view.append('<li>'+key+': '+value+'</li>');
-			});
+		
+		
+		update_view_h(data['session'], view);
 		
 		};
 	
@@ -27,7 +56,7 @@ $(function(){
 		$.ajax({
 			type: 'POST',
 			dataType: 'json',
-			url: 'ajax.php',
+			url: 'ajax.php?_get',
 			data: {
 				action: 'get',
 				sid: sid
@@ -35,6 +64,13 @@ $(function(){
 			success: update_view
 			});
 		}
+	
+	
+	
+	$('#data').on('click', '.more', function(event){
+		event.preventDefault();
+		$(this).next().slideToggle(200);
+		});
 	
 	
 	
@@ -54,7 +90,7 @@ $(function(){
 	$.ajax({
 		type: 'POST',
 		dataType: 'json',
-		url: 'ajax.php',
+		url: 'ajax.php?_list',
 		data: {
 			action: 'list'
 			},

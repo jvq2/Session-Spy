@@ -73,11 +73,11 @@
 				}
 			
 			
-			$json_out['session_new'] = parse_data($_SESSION);
-			$json_out['session_new'] = $json_out['session_new']['value'];
+			$json_out['session'] = parse_data($_SESSION);
+			$json_out['session'] = $json_out['session']['value'];
 			
 			
-			$json_out['session'] = $_SESSION;
+			//$json_out['session'] = $_SESSION;
 			$json_out['success'] = 1;
 			
 			echo json_encode($json_out);

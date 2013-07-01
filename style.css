@@ -60,11 +60,19 @@ body{
 	background-color: #DFC;
 	}
 
+.array ul{
+	display: none;
+	margin-left: 20px;
+	margin-bottom: 3px;
+	}
 
 
 	
 #data  .more{
-	cursor: pointer;
+	text-decoration: none;
+	}
+#data  .more:hover{
+	text-decoration: underline;
 	}
 
 
@@ -79,10 +87,10 @@ body{
 #data .float, #data .double{
 	color: #069;
 	}
-
+/*
 #data .array{
-	color: #A55;/*hehe*/
-	}
+	color: #A55;hehe
+	}*/
 
 #data .bool{
 	color: #066;

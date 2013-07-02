@@ -12,17 +12,58 @@ $(function(){
 	
 	function update_view_h(data, view){
 		$.each(data, function(key, value){
+			
 			switch(value['type']){
-				case 'array':
-					var new_view = $('<ul></ul>');
+				case 'object':
+					var new_view = $('<ul class="more-ex"></ul>');
 					update_view_h(value['value'], new_view);
 					
-					var ele = $('<li><span class="key '+typeof value['key']+'" title="'+typeof value['key']+'">'+value['key']+'</span><span class="array" title="array"><a href="#" class="more">[...]</a></span></li>');
+					var ele = $(
+						'<li>'+
+							'<span class="key '+ typeof value['key'] +'" title="'+ typeof value['key'] +':'+ value['key'] +'">'+
+								value['key']+
+							'</span>'+
+							'<span class="value array" title="object">'+
+								'<a href="#" class="more">[Object ...]</a>'+
+								'<span class="class-info">'+ value['class'] +'</span>'+
+							'</span>'+
+						'</li>');
+						
 					$('.array', ele).append(new_view);
 					view.append(ele);
 					break;
+					
+				case 'array':
+					var new_view = $('<ul class="more-ex"></ul>');
+					update_view_h(value['value'], new_view);
+					
+					var ele = $(
+						'<li>'+
+							'<span class="key '+ typeof value['key'] +'" title="'+ typeof value['key'] +':'+ value['key'] +'">'+
+								value['key']+
+							'</span>'+
+							'<span class="value array" title="array">'+
+								'<a href="#" class="more">[Array ...]</a>'+
+							'</span>'+
+						'</li>');
+						
+					$('.array', ele).append(new_view);
+					view.append(ele);
+					break;
+					
 				default:
-					view.append('<li><span class="key '+typeof value['key']+'" title="'+typeof value['key']+'">'+value['key']+'</span><span class="'+value['type']+'" title="'+value['type']+'">'+value['value']+'</span></li>');
+					view.append(
+						'<li>'+
+							'<span class="key '+ typeof value['key'] +'" title="'+ typeof value['key'] +':'+ value['key'] +'">'+
+								value['key']+
+							'</span>'+
+							(value['flag']
+								?'<span class="'+ value['flag'] +'">'+ value['flag'] +'</span>'
+								:'')+
+							'<span class="value '+ value['type'] +'" title="'+ value['type'] +'">'+
+								value['value']+
+							'</span>'+
+						'</li>');
 				}
 			
 			});
@@ -46,6 +87,9 @@ $(function(){
 		
 		view.empty();
 		
+		if(data['session'].length == 0){
+			view.append('<span class="no-data">Session Empty</span>');
+			}
 		
 		update_view_h(data['session'], view);
 		
@@ -69,7 +113,7 @@ $(function(){
 	
 	$('#data').on('click', '.more', function(event){
 		event.preventDefault();
-		$(this).next().slideToggle(200);
+		$('.more-ex:first', $(this).parent()).slideToggle(200);
 		});
 	
 	

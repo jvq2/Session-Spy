@@ -59,6 +59,11 @@ body{
 #list .item.active{
 	background-color: #DFC;
 	}
+	
+
+#data{
+	line-height: 1.2em;
+	}
 
 .array ul{
 	display: none;
@@ -67,6 +72,14 @@ body{
 	}
 
 
+
+#data .no-data{
+	text-align: center;
+	display: block;
+	font-size: 24px;
+	padding: 18px;
+	color: #999;
+	}
 	
 #data  .more{
 	text-decoration: none;
@@ -76,23 +89,33 @@ body{
 	}
 
 
+#data .key.string:before, #data .key.string:after{
+	content: '';
+	}
+#data .string:before, #data .string:after{
+	content: '"';
+	display: inline;
+	}
+
 #data .string{
 	color: #C00;
 	}
 
-#data .int, #data .number{
+#data .integer, #data .number{
 	color: #006;
 	}
 	
 #data .float, #data .double{
 	color: #069;
 	}
-/*
-#data .array{
-	color: #A55;hehe
-	}*/
 
-#data .bool{
+#data .class-info{
+	color: #A55;/*hehe*/
+	font-style: italic;
+	padding-left: 10px;
+	}
+
+#data .boolean{
 	color: #066;
 	}
 
@@ -112,6 +135,16 @@ body{
 	color: #404;
 	}
 
+#data .public, #data .private, #data .protected{
+	font-style: italic;
+	padding: 0 5px;
+	}
+
+#data .value{
+	padding: 0 0 0 5px;
+	}
+
+
 
 #data  .key.more:before{
 	content: '+';
@@ -120,7 +153,7 @@ body{
 
 #data .key{
 	font-weight: bold;
-	width: 160px;
+	width: 200px;
 	display: inline-block;
 	overflow: hidden;
 	}

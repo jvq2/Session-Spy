@@ -5,12 +5,44 @@
 	$json_out = array('success' => 0);
 
 	
+	
 	function parse_data($data){
 		
 		$new_data = array('type' => gettype($data));
 		
 		switch($new_data['type']){
 			
+			case 'object':
+				
+				$name = get_class($data);
+				
+				$data_a = (array)$data;
+				
+				
+				$keys = @array_keys($data_a);
+				
+				$c = count($keys);
+				
+				$new_data['value'] = array();
+				$new_data['class'] = $name;
+				
+				for($i = 0; $i < $c; $i++){
+					$k = $keys[$i];
+					$priv = 0;
+					$prot = 0;
+					
+					$k = str_replace("\0". $name ."\0", '', $k, $priv);
+					
+					$k = str_replace("\0*\0", '', $k, $prot);
+					
+					$new_data['value'][$i] = parse_data($data_a[$k]);
+					$new_data['value'][$i]['key'] = $k;
+					$new_data['value'][$i]['flag'] = $priv?'private' : $prot?'protected' : 'public';
+					
+					//echo '"'. str_replace("\0".$name."\0",'PRIVATE-',$keys[$i]) .'": "'. $b[$keys[$i]] .'"<br />';
+					
+					}
+				break;
 			case 'array':
 				
 				$keys = array_keys($data);

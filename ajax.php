@@ -24,7 +24,7 @@
 				$c = count($keys);
 				
 				$new_data['value'] = array();
-				$new_data['class'] = $name;
+				$new_data['class'] = htmlspecialchars($name);
 				
 				for($i = 0; $i < $c; $i++){
 					$k = $keys[$i];
@@ -36,7 +36,7 @@
 					$k = str_replace("\0*\0", '', $k, $prot);
 					
 					$new_data['value'][$i] = parse_data($data_a[$k]);
-					$new_data['value'][$i]['key'] = $k;
+					$new_data['value'][$i]['key'] = htmlspecialchars($k);
 					$new_data['value'][$i]['flag'] = $priv?'private' : $prot?'protected' : 'public';
 					
 					//echo '"'. str_replace("\0".$name."\0",'PRIVATE-',$keys[$i]) .'": "'. $b[$keys[$i]] .'"<br />';
@@ -54,13 +54,13 @@
 				
 				for($i = 0; $i < $c; $i++){
 					$new_data['value'][$i] = parse_data($data[$keys[$i]]);
-					$new_data['value'][$i]['key'] = $keys[$i];
+					$new_data['value'][$i]['key'] = htmlspecialchars($keys[$i]);
 					}
 					
 				break;
 			
-			default:
-				$new_data['value'] = $data;
+			default:// scalar types
+				$new_data['value'] = htmlspecialchars($data);
 				break;
 			}
 		

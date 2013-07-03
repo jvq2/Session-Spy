@@ -23,13 +23,15 @@
 	
 	<div class="ui-layout-west">
 		<div class="header" style="text-align: center;">
-			<input id="id_search" type="text" placeholder="Search..." />
+			<input id="id_search" type="text" placeholder="Search... (not implemented)" />
 		</div>
 		<ul class="ui-layout-content" id="list"></ul>
 	</div>
 	
 	<div class="ui-layout-center">
-		<div class="header"></div>
+		<div class="header">
+			<div id="cur_sess"></div>
+		</div>
 		<ul class="ui-layout-content" id="data"></ul>
 	</div>
 	

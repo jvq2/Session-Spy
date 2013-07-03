@@ -58,7 +58,7 @@ $(function(){
 								value['key']+
 							'</span>'+
 							(value['flag']
-								?'<span class="'+ value['flag'] +'">'+ value['flag'] +'</span>'
+								?'<span class="'+ value['flag'] +'" title="'+ value['flag'] +'"><img src="'+ value['flag'] +'.png" /></span>'
 								:'')+
 							'<span class="value '+ value['type'] +'" title="'+ value['type'] +'">'+
 								value['value']+
@@ -81,7 +81,7 @@ $(function(){
 			return;
 			}
 		
-		$('.header', view).html(data['session_id']);
+		$('.header #cur_sess', view).html(data['session_id']);
 		
 		view = $('#data', view);
 		
@@ -118,7 +118,7 @@ $(function(){
 	
 	
 	
-	$('#list').on('click', '.item', function(e){
+	$('#list').on('click', '.item', function(event){
 		
 		$('#list .item.active').removeClass('active');
 		
@@ -146,6 +146,16 @@ $(function(){
 			
 			$('#list .item').first().trigger('click');
 			}
+		});
+	
+	$('#data').on('mouseover', 'li', function(event){
+		$(this).addClass('hover');
+		return false;
+		});
+		
+	$('#data').on('mouseout', 'li', function(event){
+		$(this).removeClass('hover');
+		return false;
 		});
 	
 	

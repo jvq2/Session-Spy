@@ -60,6 +60,10 @@ body{
 	background-color: #DFC;
 	}
 	
+#cur_sess{
+	font-weight: bold;
+	padding: 10px;
+	}
 
 #data{
 	line-height: 1.2em;
@@ -71,7 +75,11 @@ body{
 	margin-bottom: 3px;
 	}
 
-
+	
+	
+#data li.hover{
+	background-color: #CDF;
+	}
 
 #data .no-data{
 	text-align: center;
@@ -136,8 +144,8 @@ body{
 	}
 
 #data .public, #data .private, #data .protected{
-	font-style: italic;
 	padding: 0 5px;
+	vertical-align: middle;
 	}
 
 #data .value{
@@ -156,6 +164,7 @@ body{
 	width: 200px;
 	display: inline-block;
 	overflow: hidden;
+	vertical-align: middle;
 	}
 
 #data .key.string{

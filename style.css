@@ -125,6 +125,7 @@ body{
 
 #data .boolean{
 	color: #066;
+	text-transform: capitalize;
 	}
 
 #data .null{

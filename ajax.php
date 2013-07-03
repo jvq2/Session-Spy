@@ -58,8 +58,10 @@
 					}
 					
 				break;
-			
-			default:// scalar types
+			case 'boolean':
+				$new_data['value'] = $data;
+				break;
+			default:// other scalar types
 				$new_data['value'] = htmlspecialchars($data);
 				break;
 			}

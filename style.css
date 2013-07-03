@@ -32,6 +32,10 @@ body{
 	padding: 0;
 	}
 
+	
+#loading_data{
+	display: none;
+	}
 
 #id_search{   
 	font-family: monospace;
@@ -63,6 +67,7 @@ body{
 #cur_sess{
 	font-weight: bold;
 	padding: 10px;
+	display: inline-block;
 	}
 
 #data{

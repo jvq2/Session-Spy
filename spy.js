@@ -70,6 +70,7 @@ $(function(){
 		}
 	
 	function update_view(data){
+		$('#loading_data').hide();
 		var view = $('.ui-layout-center');
 		
 		if(!data['success']){
@@ -97,6 +98,8 @@ $(function(){
 	
 	
 	function get_data(sid){
+		$('#loading_data').show();
+		
 		$.ajax({
 			type: 'POST',
 			dataType: 'json',
@@ -105,7 +108,11 @@ $(function(){
 				action: 'get',
 				sid: sid
 				},
-			success: update_view
+			success: update_view,
+			error: function(xhr, desc){
+				$('#loading_data').hide();
+				
+				}
 			});
 		}
 	
@@ -147,6 +154,8 @@ $(function(){
 			$('#list .item').first().trigger('click');
 			}
 		});
+		
+	
 	
 	$('#data').on('mouseover', 'li', function(event){
 		$(this).addClass('hover');

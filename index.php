@@ -31,6 +31,7 @@
 	<div class="ui-layout-center">
 		<div class="header">
 			<div id="cur_sess"></div>
+			<span id="loading_data"><img src="loading.gif" /></span>
 		</div>
 		<ul class="ui-layout-content" id="data"></ul>
 	</div>

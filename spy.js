@@ -19,7 +19,7 @@ $(function(){
 					update_view_h(value['value'], new_view);
 					
 					var ele = $(
-						'<li>'+
+						'<li title="'+ value['type'] +'">'+
 							'<span class="key '+ typeof value['key'] +'" title="'+ typeof value['key'] +':'+ value['key'] +'">'+
 								value['key']+
 							'</span>'+
@@ -38,7 +38,7 @@ $(function(){
 					update_view_h(value['value'], new_view);
 					
 					var ele = $(
-						'<li>'+
+						'<li title="'+ value['type'] +'">'+
 							'<span class="key '+ typeof value['key'] +'" title="'+ typeof value['key'] +':'+ value['key'] +'">'+
 								value['key']+
 							'</span>'+
@@ -53,7 +53,7 @@ $(function(){
 					
 				default:
 					view.append(
-						'<li>'+
+						'<li title="'+ value['type'] +'">'+
 							'<span class="key '+ typeof value['key'] +'" title="'+ typeof value['key'] +':'+ value['key'] +'">'+
 								value['key']+
 							'</span>'+

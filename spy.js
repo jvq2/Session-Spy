@@ -1,5 +1,8 @@
 $(function(){
-
+	
+	var token = $('body').attr('data-token');
+	
+	
 	$('body').layout({
 		north__size:		50,
 		north__resizable:	false,
@@ -105,6 +108,7 @@ $(function(){
 			dataType: 'json',
 			url: 'ajax.php?_get',
 			data: {
+				sec_token: token,
 				action: 'get',
 				sid: sid
 				},
@@ -143,6 +147,7 @@ $(function(){
 		dataType: 'json',
 		url: 'ajax.php?_list',
 		data: {
+			sec_token: token,
 			action: 'list'
 			},
 		success: function(data){

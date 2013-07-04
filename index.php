@@ -1,5 +1,8 @@
 <?php
-	session_start();
+	define('INSPY', true);
+	require_once('auth.php');
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -11,11 +14,12 @@
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="jquery.layout-latest.min.js"></script>
+	
 	<script type="text/javascript" src="spy.js"></script>
 	
 	<title>Session Spy</title>
 </head>
-<body>
+<body data-token="<?php echo $_SESSION['sec_token']; ?>">
 	<div class="ui-layout-north header">
 		<span class="session_spy">Session Spy</span>
 		<span class="me"><b>me:</b> <?php echo session_id();?></span>

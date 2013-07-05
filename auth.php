@@ -6,6 +6,9 @@ if(!defined('INSPY') || INSPY != true){
 	die();
 	}
 
+require('config.php');
+require('mysql-db.php');
+
 
 session_start();
 
@@ -29,12 +32,11 @@ if(isset($_POST['sec_token']) && $_POST['sec_token'] == $_SESSION['sec_token']){
 // handle login attempts
 if(SPY_SEC && isset($_POST['login'])){
 
-	// TODO: db/other login
 	
-	// temporary hard user/pass
-	if($_POST['user'] == 'spy' && $_POST['pass'] == 'spy'){
+	if(check_login($_POST['user'], $_POST['pass'])){
 		// login success
 		$_SESSION['logged_in'] = true;
+		
 		// generate a new token when someone logs in
 		$_SESSION['sec_token'] = base64_encode(md5(uniqid('5sdf66g4d6f8g', true)));
 		

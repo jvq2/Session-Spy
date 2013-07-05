@@ -94,6 +94,10 @@ body#login{
 	height: 40px;
 	}
 
+.ui-layout-toggler{
+	background-color: #76B6F4;
+	}
+
 .ui-layout-north{
 	background-color: #CDF;
 	}

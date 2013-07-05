@@ -61,7 +61,7 @@ $(function(){
 								value['key']+
 							'</span>'+
 							(value['flag']
-								?'<span class="'+ value['flag'] +'" title="'+ value['flag'] +'"><img src="'+ value['flag'] +'.png" /></span>'
+								?'<span class="'+ value['flag'] +'" title="'+ value['flag'] +'"><img src="images/'+ value['flag'] +'.png" /></span>'
 								:'')+
 							'<span class="value '+ value['type'] +'" title="'+ value['type'] +'">'+
 								value['value']+

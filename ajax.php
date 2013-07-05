@@ -1,12 +1,21 @@
 <?php
 	define('INSPY', true);
 	define('SPY_JSON', true);
-	require_once('auth.php');
+	require_once('./include/common.php');
+	require_once('./include/auth.php');
 	
 	
-	// close the auth session and clear its contents
+	
+	// Close the current session and clear its contents
+	// WARNING: DO NOT REMOVE - removal of the following lines will
+	//          cause unwanted alterations or possibly corruptions
+	//          to any viewed sessions.
 	session_write_close();
 	session_unset();
+	//////
+	
+	
+	
 
 	$json_out = array('success' => 0);
 

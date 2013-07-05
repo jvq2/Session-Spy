@@ -1,6 +1,7 @@
 <?php
 	define('INSPY', true);
-	require_once('auth.php');
+	require_once('./include/common.php');
+	require_once('./include/auth.php');
 
 
 ?>
@@ -8,14 +9,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<link type="text/css" rel="stylesheet" media="screen" href="reset.css">
-	<link type="text/css" rel="stylesheet" media="screen" href="layout-default-latest.css">
-	<link type="text/css" rel="stylesheet" media="screen" href="style.css">
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="jquery.layout-latest.min.js"></script>
+	<link type="text/css" rel="stylesheet" media="screen" href="css/reset.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="css/layout-default-latest.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.10.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.layout-latest.min.js"></script>
 	
-	<script type="text/javascript" src="spy.js"></script>
+	<script type="text/javascript" src="js/spy.js"></script>
 	
 	<title>Session Spy</title>
 </head>
@@ -35,7 +36,7 @@
 	<div class="ui-layout-center">
 		<div class="header">
 			<div id="cur_sess"></div>
-			<span id="loading_data"><img src="loading.gif" /></span>
+			<span id="loading_data"><img src="images/loading.gif" /></span>
 		</div>
 		<ul class="ui-layout-content" id="data"></ul>
 	</div>

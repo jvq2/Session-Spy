@@ -27,9 +27,13 @@
 	</div>
 	
 	<div class="ui-layout-west">
+	
 		<div class="header" style="text-align: center;">
-			<input id="id_search" type="text" placeholder="Search... (not implemented)" />
+			<div class="sid_search_box">
+				<input id="sid_search" type="text" placeholder="Search..." /><button id="sid_search_button"><span>Search</span></button>
+			</div>
 		</div>
+		
 		<ul class="ui-layout-content" id="list"></ul>
 	</div>
 	

@@ -25,6 +25,12 @@
 		die(json_encode($json_out));
 		}
 	
+	function ax_search_list($item){
+		global $ax_search_value, $prefix_n;
+		
+		return strpos($item, $ax_search_value, $prefix_n);
+		}
+	
 	
 	function parse_data($data){
 		
@@ -39,7 +45,7 @@
 				$data_a = (array)$data;
 				
 				
-				$keys = @array_keys($data_a);
+				$keys = array_keys($data_a);
 				
 				$c = count($keys);
 				
@@ -104,6 +110,7 @@
 	
 	
 	switch($action){
+	
 		case 'get':
 		
 			if(!isset($_POST['sid']) || !$_POST['sid']){
@@ -141,6 +148,8 @@
 			break;
 		
 		
+		
+		
 		// Heres where the client can request a list of all the 
 		// sessions on the server.
 		case 'list':
@@ -151,11 +160,21 @@
 			// we read out a list of session files stored on the server
 			$sessions = glob($file_prefix.'*');
 			
+			
+			if(isset($_POST['search']) && $_POST['search']){
+				$ax_search_value = $_POST['search'];
+				$sessions = array_filter($sessions, "ax_search_list");
+				
+				// lets redo our array indices... wtf php.
+				$sessions = array_values($sessions);
+				}
+			
+			
 			$n_sessions = count($sessions);
 			
 			
 			// Strip the file prefix from our list of sessions.
-			// Foreach is handy but more expensive to call.
+			// Foreach is handy but more expensive to call for large datasets.
 			for($i = 0; $i < $n_sessions; $i++){
 			
 				$t_sid = $sessions[$i];
@@ -175,7 +194,9 @@
 			
 			echo json_encode($json_out);
 			break;
-			
+		
+		
+		
 		default:
 			// malformed request
 			$json_out['error'] = 'Unknown action';

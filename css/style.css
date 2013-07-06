@@ -121,14 +121,58 @@ a.session_spy, a.session_spy:link, a.session_spy:hover, a.session_spy:visited {
 	display: none;
 	}
 
-#id_search{   
+.sid_search_box{
+	padding-right: 43px;
+	position: relative;
+	width: 200px;
+	margin: 0 auto;
+	top: 6px;
+	}
+
+#sid_search{   
 	font-family: monospace;
-    font-size: 16px;
-    margin-top: 8px;
+    font-size: 14px;
     width: 100%;
+	border: 1px solid #AAA;
+	padding: 3px;
+	}
+
+#sid_search_button{
+	vertical-align: middle;
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+	border: none;
+	font-size: 14px;
+	border-radius: 0 8px 8px 0;
+	padding: 3px 8px;
+	color: #FFF;
+	background: #499bea;
+	background: -moz-linear-gradient(top,  #499bea 0%, #207ce5 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#499bea), color-stop(100%,#207ce5));
+	background: -webkit-linear-gradient(top,  #499bea 0%,#207ce5 100%);
+	background: -o-linear-gradient(top,  #499bea 0%,#207ce5 100%);
+	background: -ms-linear-gradient(top,  #499bea 0%,#207ce5 100%);
+	background: linear-gradient(to bottom,  #499bea 0%,#207ce5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5',GradientType=0 );
+	}
+
+#sid_search_button span{
+	background: url('../images/search.png') no-repeat scroll transparent;
+	display: block;
+	text-indent: -1000px;
+	width: 16px;
 	}
 
 
+
+.no-data{
+	text-align: center;
+	display: block;
+	padding: 8px;
+	color: #999;
+	}
 
 #list{
 	list-style: none;
@@ -171,11 +215,8 @@ a.session_spy, a.session_spy:link, a.session_spy:hover, a.session_spy:visited {
 	}
 
 #data .no-data{
-	text-align: center;
-	display: block;
 	font-size: 24px;
 	padding: 18px;
-	color: #999;
 	}
 	
 #data  .more{

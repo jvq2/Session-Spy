@@ -121,14 +121,14 @@ $(function(){
 		}
 	
 	
-	
+	// array and object expansion
 	$('#data').on('click', '.more', function(event){
 		event.preventDefault();
 		$('.more-ex:first', $(this).parent()).slideToggle(200);
 		});
 	
 	
-	
+	// call up session for view
 	$('#list').on('click', '.item', function(event){
 		
 		$('#list .item.active').removeClass('active');
@@ -140,27 +140,44 @@ $(function(){
 		get_data(a.attr('data-sid'));
 		});
 	
-	
-	
-	$.ajax({
-		type: 'POST',
-		dataType: 'json',
-		url: 'ajax.php?_list',
-		data: {
-			sec_token: token,
-			action: 'list'
-			},
-		success: function(data){
-			var x = $('#list');
-			$.each(data['sessions'], function(_,sess){
-				x.append($('<li title="'+sess['size']+'b | Modified: '+(new Date(parseInt(sess['mod'])*1000)).toUTCString()+'" data-sid="'+sess['id']+'" class="item">'+sess['id']+'</li>'))
-				});
-			
-			$('#list .item').first().trigger('click');
-			}
+	$('#sid_search_button').click(function(event){
+		//alert($('#sid_search').val());
+		list($('#sid_search').val());
+		event.preventDefault();
 		});
-		
 	
+	function list(search){
+		search = (typeof search === "undefined") ? "" : search;
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: 'ajax.php?_list',
+			data: {
+				sec_token: token,
+				search: search,
+				action: 'list'
+				},
+			success: function(data){
+				var x = $('#list');
+				
+				x.empty();
+				
+				// empty list nothing matched
+				if(data.length < 1){
+					x.append($('<span class="no-data">Empty</span>'));
+					return;
+					}
+				
+				$.each(data['sessions'], function(_,sess){
+					x.append($('<li title="'+sess['size']+'b | Modified: '+(new Date(parseInt(sess['mod'])*1000)).toUTCString()+'" data-sid="'+sess['id']+'" class="item">'+sess['id']+'</li>'))
+					});
+				
+				$('#list .item').first().trigger('click');
+				}
+			});
+		}
+	
+	list();
 	
 	$('#data').on('mouseover', 'li', function(event){
 		$(this).addClass('hover');

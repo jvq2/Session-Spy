@@ -137,7 +137,7 @@ $(function(){
 		a.addClass('active');
 		
 		
-		get_data(a.text());
+		get_data(a.attr('data-sid'));
 		});
 	
 	
@@ -152,8 +152,8 @@ $(function(){
 			},
 		success: function(data){
 			var x = $('#list');
-			$.each(data['sessions'], function(_,id){
-				x.append($('<li class="item">'+id+'</li>'))
+			$.each(data['sessions'], function(_,sess){
+				x.append($('<li title="'+sess['size']+'b | Modified: '+(new Date(parseInt(sess['mod'])*1000)).toUTCString()+'" data-sid="'+sess['id']+'" class="item">'+sess['id']+'</li>'))
 				});
 			
 			$('#list .item').first().trigger('click');

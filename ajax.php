@@ -145,15 +145,28 @@
 		// sessions on the server.
 		case 'list':
 			
+			$file_prefix = session_save_path().'/sess_';
+			$prefix_n = strlen($file_prefix);
+			
 			// we read out a list of session files stored on the server
-			$sessions = glob(session_save_path() .'/sess_*');
+			$sessions = glob($file_prefix.'*');
 			
 			$n_sessions = count($sessions);
 			
+			
 			// Strip the file prefix from our list of sessions.
-			// Foreach is handy but more intensive.
+			// Foreach is handy but more expensive to call.
 			for($i = 0; $i < $n_sessions; $i++){
-				$sessions[$i] = substr($sessions[$i], strlen(session_save_path().'/sess_'));
+			
+				$t_sid = $sessions[$i];
+				
+				$file_size = filesize($t_sid);
+				$mod_time = filemtime($t_sid);
+				$t_sid = substr($t_sid, $prefix_n);
+				
+				$sessions[$i] = array('id' => $t_sid, 
+				                      'size' => $file_size, 
+				                      'mod' => $mod_time);
 				}
 			
 			// we are left with a list of sessions currently stored.

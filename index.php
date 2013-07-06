@@ -22,7 +22,7 @@
 </head>
 <body data-token="<?php echo $_SESSION['sec_token']; ?>">
 	<div class="ui-layout-north header">
-		<span class="session_spy">Session Spy</span>
+		<a class="session_spy" href="./">Session Spy</a>
 		<span class="me"><b>me:</b> <?php echo session_id();?></span>
 	</div>
 	

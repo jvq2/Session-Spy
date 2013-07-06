@@ -81,6 +81,11 @@ body#login{
 	font-weight: bold;
 	}
 
+a.session_spy, a.session_spy:link, a.session_spy:hover, a.session_spy:visited {
+	color: #fff;
+	text-decoration: none;
+	}
+
 .me{
 	float: right;
 	position: relative;
@@ -98,8 +103,13 @@ body#login{
 	background-color: #76B6F4;
 	}
 
-.ui-layout-north{
-	background-color: #CDF;
+.ui-layout-north, .ui-layout-resizer-north-closed{
+	background-color: #185998;
+	color: #fff;
+	}
+
+.ui-layout-resizer-north-closed .ui-layout-toggler{
+	background-color: #1ABE11;
 	}
 
 .ui-layout-west, .ui-layout-center, .ui-layout-north{

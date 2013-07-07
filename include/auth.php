@@ -19,7 +19,7 @@ if(!isset($_SESSION['logged_in'])){
 	
 
 // verify security token for all actions.
-if(isset($_POST['sec_token']) && $_POST['sec_token'] == $_SESSION['sec_token']){
+if(isset($_REQUEST['sec_token']) && $_REQUEST['sec_token'] == $_SESSION['sec_token']){
 	define('SPY_SEC', true);
 }else{
 	define('SPY_SEC', false);
@@ -49,10 +49,14 @@ if(SPY_SEC && isset($_REQUEST['logout'])){
 // handle login attempts
 if(SPY_SEC && isset($_POST['login'])){
 
-	
-	if(check_login($_POST['user'], $_POST['pass'])){
+	$u = check_login($_POST['user'], $_POST['pass']);
+	if($u){
+		
 		// login success
 		$_SESSION['logged_in'] = true;
+		
+		// save user info in session
+		$_SESSION['user'] = $u;
 		
 		// generate a new token when someone logs in
 		$_SESSION['sec_token'] = base64_encode(md5(uniqid('5sdf66g4d6f8g', true)));
@@ -82,12 +86,23 @@ if(!$_SESSION['logged_in']){
 		die(json_encode($json_out));
 		}
 
-// Otherwise....
+	// Otherwise....
+	require('login-form.php');
 
-require('login-form.php');
-
-// If not logged in, display login page, then die.
-// This script is included in other files, so die() is needed.
-die();
-}
+	// If not logged in, display login page, then die.
+	// This script is included in other files, so die() is needed to
+	// prevent further unauthorized code execution in those pages.
+	die();
+	
+	
+}else{ // someone is logged in
+	
+	if($_SESSION['user']['role'] == 'admin'){
+		define('SPY_ADMIN', true);
+	}else{
+		define('SPY_ADMIN', false);
+		}
+	}
+	
+	
 ?>

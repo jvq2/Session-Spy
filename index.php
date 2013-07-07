@@ -3,6 +3,13 @@
 	require_once('./include/common.php');
 	require_once('./include/auth.php');
 
+	
+	$default_sess = '';
+	if(isset($_GET['session_id']) && $_GET['session_id']){
+		$default_sess = ' data-sid="'.htmlentities($_GET['session_id']).'"';
+		}
+	
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -20,9 +27,11 @@
 	
 	<title>Session Spy</title>
 </head>
-<body data-token="<?php echo $_SESSION['sec_token']; ?>">
+<body data-token="<?php echo $_SESSION['sec_token']; ?>" data-role="<?php echo $_SESSION['user']['role']; ?>" data-start-min="<?php echo $default_sess?'true':'false';?>">
 	<div class="ui-layout-north header">
 		<a class="session_spy" href="./">Session Spy</a>
+		<button id="logout" title="Logout">Logout</button>
+		<?php if(SPY_ADMIN){ ?><button id="show_users" title="Open Users Panel">Users</button><?php } ?>
 		<span class="me"><b>me:</b> <?php echo session_id();?></span>
 	</div>
 	
@@ -30,7 +39,7 @@
 	
 		<div class="header" style="text-align: center;">
 			<div class="sid_search_box">
-				<input id="sid_search" type="text" placeholder="Search..." /><button id="sid_search_button"><span>Search</span></button>
+				<input id="sid_search" type="text" placeholder="Search..." /><button id="sid_search_button" title="Search in Session ID's"><span>Search</span></button>
 			</div>
 		</div>
 		
@@ -39,12 +48,48 @@
 	
 	<div class="ui-layout-center">
 		<div class="header">
+			<button title="Refresh Session Data" class="green" id="refresh_data"><span>Refresh</span></button>
+			
 			<div id="cur_sess"></div>
+			
 			<span id="loading_data"><img src="images/loading.gif" /></span>
+			
+			<span id="data_view_toolbar">
+				<button id="toggle_panels" title="Toggle Panels">
+					<span>Close all panels</span>
+				</button>
+				<button id="data_new_window" title="Open in New Window">
+					<span>Open in new window</span>
+				</button>
+			</span>
+			
 		</div>
-		<ul class="ui-layout-content" id="data"></ul>
+		
+		<ul class="ui-layout-content" id="data"<?php echo $default_sess;?>></ul>
 	</div>
 	
+	<?php if(SPY_ADMIN){ ?>
+	<div class="ui-layout-east">
+		<div class="header">
+			<span>Users</span>
+			<button id="add_user"><span>Add</span></button>
+		</div>
+		<ul class="ui-layout-content" id="users"></ul>
+	</div>
+	<?php } ?>
+	
+	<div id="add_user_dialog">
+		<form>
+			<input type="text" id="add_user_name" /><br />
+			<input type="password" id="add_user_pass" /><br />
+			<input type="password" id="add_user_pass_c" /><br />
+			<select id="add_user_role">
+				<option value="read">Readonly</option>
+				<option value="write">Edit</option>
+				<option value="admin">Admin</option>
+			</select>
+		</form>
+	</div>
 	
 </body>
 </html>

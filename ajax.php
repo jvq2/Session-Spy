@@ -127,13 +127,27 @@
 			
 			$json_out['session_id'] = $sid;
 			
+			
+			/*$s = file_get_contents(session_save_path().'/sess_'.$sid);
+			
+			if(!$s){
+				$json_out['error'] = 'Could not open session';
+				die(json_encode($json_out));
+				}
+			
+			if(!session_decode($s)){
+				$json_out['error'] = 'Could not decode session '.var_export($_SESSION,true);
+				die(json_encode($json_out));
+				}*/
+			
+			//*
 			// set phasers to stun
 			session_id($sid);
 			
 			if(!session_start()){
 				$json_out['error'] = 'Could not initialize session';
 				die(json_encode($json_out));
-				}
+				}//*/
 			
 			
 			$json_out['session'] = parse_data($_SESSION);
@@ -143,9 +157,11 @@
 			// I'm taking a note here.
 			$json_out[/*huge*/'success'] = 1;
 			
-			echo json_encode($json_out);
+			die(json_encode($json_out));
 			
-			break;
+			//break;
+		
+		
 		
 		
 		
@@ -192,8 +208,25 @@
 			$json_out['sessions'] = $sessions;
 			$json_out['success'] = 1;
 			
-			echo json_encode($json_out);
-			break;
+			die(json_encode($json_out));
+			//break;
+		
+		
+		
+		
+		case 'user-list':
+		
+			if(!SPY_ADMIN){
+				$json_out['error'] = 'You are not authorized to view this list.';
+				die(json_encode($json_out));
+				}
+				
+			$json_out['users'] = list_users();
+			$json_out['success'] = 1;
+			
+			die(json_encode($json_out));
+			//break;
+		
 		
 		
 		

@@ -6,13 +6,10 @@
 	
 	
 	
-	// Close the current session and clear its contents
-	// WARNING: DO NOT REMOVE - removal of the following lines will
-	//          cause unwanted alterations or possibly corruptions
-	//          to any viewed sessions.
-	session_write_close();
-	session_unset();
-	//////
+	
+	//session_write_close();
+	//session_unset();
+	
 	
 	
 	
@@ -128,9 +125,12 @@
 			$json_out['session_id'] = $sid;
 			
 			
-			/*$s = file_get_contents(session_save_path().'/sess_'.$sid);
+			$old_session = $_SESSION;
+			$_SESSION = array();
 			
-			if(!$s){
+			$s = file_get_contents(session_save_path().'/sess_'.$sid);
+			
+			if($s === false){
 				$json_out['error'] = 'Could not open session';
 				die(json_encode($json_out));
 				}
@@ -138,9 +138,12 @@
 			if(!session_decode($s)){
 				$json_out['error'] = 'Could not decode session '.var_export($_SESSION,true);
 				die(json_encode($json_out));
-				}*/
+				}
 			
-			//*
+			$data = $_SESSION;
+			$_SESSION = $old_session;
+			
+			/*
 			// set phasers to stun
 			session_id($sid);
 			
@@ -150,7 +153,7 @@
 				}//*/
 			
 			
-			$json_out['session'] = parse_data($_SESSION);
+			$json_out['session'] = parse_data($data);
 			// The process leaves a one item root node. Lets remove it.
 			$json_out['session'] = $json_out['session']['value'];
 			

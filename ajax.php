@@ -115,6 +115,13 @@
 				
 				die(json_encode($json_out));
 				}
+				
+			if(!SPY_ADMIN){
+				
+				$json_out['error'] = 'You must be an administrator to delete';
+				
+				die(json_encode($json_out));
+				}
 			
 			$sid = $_POST['sid'];
 			

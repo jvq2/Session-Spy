@@ -26,7 +26,13 @@ $(function(){
 		return $('#data').attr('data-sid', id);
 		}
 	
-	
+	function nodata(){
+		$('#data')
+			.html('<b><i>Empty</i></b>')
+			.attr('data-sid','');
+		$('#cur_session').text('---');
+		$('#refresh_data, #delete_session').hide();
+		}
 	
 	
 	function update_view_h(data, view){
@@ -195,6 +201,11 @@ $(function(){
 				// empty list nothing matched
 				if(data.length < 1 || !data['success']){
 					x.append($('<span class="no-data">Empty</span>'));
+					
+					if(!sid()){
+						nodata();
+						}
+					
 					return;
 					}
 				
@@ -202,11 +213,51 @@ $(function(){
 					x.append($('<li title="'+sess['size']+'b | Modified: '+(new Date(parseInt(sess['mod'])*1000)).toUTCString()+'" data-sid="'+sess['id']+'" class="item">'+sess['id']+'</li>'))
 					});
 				
-				if(!sid()) $('#list .item').first().trigger('click');
+				if(!sid()) $('#list .item:first').trigger('click');
 				}
 			});
 		}
 	
+	
+	
+	function del_session(id){
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: 'ajax.php?_del',
+			data: {
+				sec_token: token,
+				sid: id,
+				action: 'del'
+				},
+			success: function(data){
+				
+				if(data.length > 0){
+					alert('Unknown error deleting session');
+					return;
+					}
+				
+				if(data['success'] == 0){
+					alert(data['error']);
+					return;
+					}
+				
+				var e = $('#list .item[data-sid='+id+']');
+				var n = e.next().add(e.prev());
+				
+				e.remove();
+				
+				if(n.length){
+					n.first().trigger('click');
+				}else{
+					nodata();
+					}
+				
+				// display success banner
+				
+				}
+			});
+		}
 	
 	
 	function refresh_data(){
@@ -281,6 +332,21 @@ $(function(){
 			'index.php?session_id='+sid(),
 			'_blank',
 			'height=500,width=800,menubar=0,location=0,toolbar=0');
+		});
+	
+	
+	
+	
+	// open in new window button
+	$('#delete_session').click(function(event){
+		event.preventDefault();
+		
+		if(!confirm('WARNING: \n\tAre you sure you want to delete this session?')){
+			return;
+			}
+		
+		del_session(sid());
+		
 		});
 	
 	

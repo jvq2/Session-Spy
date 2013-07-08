@@ -94,6 +94,17 @@ input[type="submit"]{
 	background: linear-gradient(to bottom,  #b4e391 0%,#61c419 99%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4e391', endColorstr='#61c419',GradientType=0 );
 	}
+	
+.red{
+	background: #ff3019;
+	background: -moz-linear-gradient(top,  #ff3019 0%, #cf0404 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff3019), color-stop(100%,#cf0404));
+	background: -webkit-linear-gradient(top,  #ff3019 0%,#cf0404 100%);
+	background: -o-linear-gradient(top,  #ff3019 0%,#cf0404 100%);
+	background: -ms-linear-gradient(top,  #ff3019 0%,#cf0404 100%);
+	background: linear-gradient(to bottom,  #ff3019 0%,#cf0404 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 );
+	}
 
 button>span{
 	display: block;
@@ -125,6 +136,12 @@ button>span{
 	background: url('../images/fullscreen.png') no-repeat scroll transparent;
 	width: 16px;
 	}
+
+#delete_session>span{
+	background: url('../images/delete_16.png') no-repeat scroll transparent;
+	width: 16px;
+	}
+
 
 
 .session_spy{
@@ -263,6 +280,7 @@ a.session_spy:visited{
 #list{
 	list-style: none;
 	font-family: monospace;
+	padding: 0;
 	}
 
 #users{
@@ -272,7 +290,10 @@ a.session_spy:visited{
 
 #list .item,
 #users .item{
-	padding:5px 5px 5px 10px;
+	padding:5px;
+	}
+#list .item{
+	text-align: center;
 	}
 
 #list .item:hover,

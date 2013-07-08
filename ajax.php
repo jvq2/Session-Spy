@@ -7,9 +7,6 @@
 	
 	
 	
-	//session_write_close();
-	//session_unset();
-	
 	
 	
 	
@@ -62,10 +59,10 @@
 					$new_data['value'][$i]['key'] = htmlspecialchars($k);
 					$new_data['value'][$i]['flag'] = $priv?'private' : $prot?'protected' : 'public';
 					
-					//echo '"'. str_replace("\0".$name."\0",'PRIVATE-',$keys[$i]) .'": "'. $b[$keys[$i]] .'"<br />';
 					
 					}
 				break;
+				
 			case 'array':
 				
 				$keys = array_keys($data);
@@ -81,9 +78,11 @@
 					}
 					
 				break;
+				
 			case 'boolean':
 				$new_data['value'] = $data;
 				break;
+				
 			default:// other scalar types
 				$new_data['value'] = htmlspecialchars($data);
 				break;
@@ -107,7 +106,52 @@
 	
 	
 	switch($action){
-	
+		
+		case 'del':
+		
+			if(!isset($_POST['sid']) || !$_POST['sid']){
+				
+				$json_out['error'] = 'Session ID is required';
+				
+				die(json_encode($json_out));
+				}
+			
+			$sid = $_POST['sid'];
+			
+			$json_out['session_id'] = $sid;
+			
+			// is this a valid session id
+			if(!preg_match('/^[a-zA-Z0-9]+$/', $sid)){
+				$json_out['error'] = 'Could not delete session. The specified session is invalid.';
+				
+				die(json_encode($json_out));
+				}
+				
+			$save_path = session_save_path();
+			
+			// does this session exist
+			if(!file_exists($save_path.'/sess_'.$sid)){
+				$json_out['error'] = 'Could not delete session. The specified session does not exist.';
+				
+				die(json_encode($json_out));
+				}
+			
+			// magic
+			$r = unlink($save_path.'/sess_'.$sid);
+			
+			
+			if(!$r){
+				$json_out['error'] = 'Could not delete session';
+				
+				die(json_encode($json_out));
+				}
+			
+			$json_out['success'] = 1;
+			
+			die(json_encode($json_out));
+		
+		
+		
 		case 'get':
 		
 			if(!isset($_POST['sid']) || !$_POST['sid']){
@@ -118,42 +162,64 @@
 				}
 			
 			// dont send this sessions cookie to the client
-			ini_set('session.use_cookies', '0');
+			//ini_set('session.use_cookies', '0');
 			
 			$sid = $_POST['sid'];
 			
 			$json_out['session_id'] = $sid;
 			
+			// is that a valid session id?
+			if(!preg_match('/^[a-zA-Z0-9]+$/', $sid)){
+				$json_out['error'] = 'The specified session is invalid.';
+				
+				die(json_encode($json_out));
+				}
 			
+			
+			$save_path = session_save_path();
+			
+			
+			// does the session exist?
+			if(!file_exists($save_path.'/sess_'.$sid)){
+				$json_out['error'] = 'The specified session does not exist.';
+				
+				die(json_encode($json_out));
+				}
+			
+			// save old session to restore in a few lines
 			$old_session = $_SESSION;
 			$_SESSION = array();
 			
+			// read session data
 			$s = file_get_contents(session_save_path().'/sess_'.$sid);
 			
+			// failure reading
 			if($s === false){
+				// make sure we dont loose our data in the event of an error
+				$_SESSION = $old_session;
+				
 				$json_out['error'] = 'Could not open session';
 				die(json_encode($json_out));
 				}
 			
+			
 			if(!session_decode($s)){
+				$_SESSION = $old_session;
+				
 				$json_out['error'] = 'Could not decode session '.var_export($_SESSION,true);
 				die(json_encode($json_out));
 				}
 			
+			// save read session data
 			$data = $_SESSION;
+			
+			// restore previous session so that we dont lose our login
 			$_SESSION = $old_session;
 			
-			/*
-			// set phasers to stun
-			session_id($sid);
 			
-			if(!session_start()){
-				$json_out['error'] = 'Could not initialize session';
-				die(json_encode($json_out));
-				}//*/
-			
-			
+			// magic
 			$json_out['session'] = parse_data($data);
+			
 			// The process leaves a one item root node. Lets remove it.
 			$json_out['session'] = $json_out['session']['value'];
 			
@@ -162,7 +228,6 @@
 			
 			die(json_encode($json_out));
 			
-			//break;
 		
 		
 		
@@ -195,7 +260,7 @@
 			// Strip the file prefix from our list of sessions.
 			// Foreach is handy but more expensive to call for large datasets.
 			for($i = 0; $i < $n_sessions; $i++){
-			
+				
 				$t_sid = $sessions[$i];
 				
 				$file_size = filesize($t_sid);
@@ -212,7 +277,6 @@
 			$json_out['success'] = 1;
 			
 			die(json_encode($json_out));
-			//break;
 		
 		
 		
@@ -228,7 +292,6 @@
 			$json_out['success'] = 1;
 			
 			die(json_encode($json_out));
-			//break;
 		
 		
 		

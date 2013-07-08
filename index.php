@@ -48,15 +48,22 @@
 	
 	<div class="ui-layout-center">
 		<div class="header">
-			<button title="Refresh Session Data" class="green" id="refresh_data"><span>Refresh</span></button>
+			<button title="Refresh Session Data" class="green" id="refresh_data">
+				<span>Refresh</span>
+			</button>
+			
+			<button class="red" id="delete_session" title="Delete Session">
+				<span>Delete Session</span>
+			</button>
 			
 			<div id="cur_sess"></div>
 			
 			<span id="loading_data"><img src="images/loading.gif" /></span>
 			
+				
 			<span id="data_view_toolbar">
 				<button id="toggle_panels" title="Toggle Panels">
-					<span>Close all panels</span>
+					<span>Toggle all panels</span>
 				</button>
 				<button id="data_new_window" title="Open in New Window">
 					<span>Open in new window</span>
@@ -90,6 +97,7 @@
 			</select>
 		</form>
 	</div>
+	
 	
 </body>
 </html>

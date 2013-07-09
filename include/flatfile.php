@@ -1,22 +1,31 @@
 <?php
 
+require_once('PasswordHash.php');
+
+
+
+
 
 
 
 function check_login($user, $pass){
-	global $pass_salt;
 	$data = ff_read();
 	
-	$pass = md5($pass_salt . $pass);
+	$hasher = new PasswordHash(8, FALSE);
 	
 	foreach($data['users'] as $val){
 		
-		if($val['name'] === $user && $val['pass'] === $pass){
-			return array(
-						'id' => $val['id'],
-						'name' => $val['name'],
-						'role' => $val['role']
-						);
+		if($val['name'] === $user){
+			
+			// nested so we can return false if the pass doesnt match
+			if($hasher->CheckPassword($pass, $val['pass'])){
+				return array(
+					'id' => $val['id'],
+					'name' => $val['name'],
+					'role' => $val['role']
+					);
+				}else return false;
+			
 			}
 		
 		}
@@ -71,17 +80,19 @@ function list_users(){
 
 
 
+
+
+
 function add_user($name, $pass, $role='read'){
-	global $pass_salt;
 	
 	$data = ff_read();
 	
-	$pass = md5($pass_salt . $pass);
+	$hasher = new PasswordHash(8, FALSE);
 	
 	$data['users'][] = array(
 				'id'   => $data['meta']['users-nId']++,
 				'name' => $name,
-				'pass' => $pass,
+				'pass' => $hasher->HashPassword($pass),
 				'role' => $role
 				);
 	
@@ -158,7 +169,6 @@ function user_role($id, $role=false){
 
 
 function user_pass($id, $pass){
-	global $pass_salt;
 	
 	$data = ff_read();
 	
@@ -176,8 +186,9 @@ function user_pass($id, $pass){
 		return false;
 		}
 	
+	$hasher = new PasswordHash(8, FALSE);
 	
-	$data['users'][$key]['pass'] = md5($pass_salt . $pass);
+	$data['users'][$key]['pass'] = $hasher->HashPassword($pass);
 	
 	return ff_write($data);
 	}
@@ -224,8 +235,6 @@ function ff_write($data){
 
 
 
-//TEMPORARY
-$flatfile_path = '.spy_storage.dat';
 
 // create the database if one doesnt exist
 if(!file_exists($flatfile_path) && $flatfile_path){
@@ -240,11 +249,6 @@ if(!file_exists($flatfile_path) && $flatfile_path){
 	}
 
 
-
-
-//var_dump(user_role(1));
-//echo '<br />';
-//var_dump(ff_read());
 
 
 

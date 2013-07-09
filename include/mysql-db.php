@@ -1,18 +1,21 @@
 <?php
 
+require_once('PasswordHash.php');
+
+
+
+
 
 
 
 function check_login($user, $pass){
-	global $mysql_con, $mysql_prefix, $pass_salt;
+	global $mysql_con, $mysql_prefix;
 	
 	$user = mysql_real_escape_string($user, $mysql_con);
-	$pass = md5($pass_salt . $pass);
 	
 	$res = mysql_query(
-			"SELECT `id`, `name`, `role` FROM `{$mysql_prefix}users`
-				WHERE `name` = '$user' 
-				  AND `pass` = '$pass'
+			"SELECT `id`, `name`, `pass`, `role` FROM `{$mysql_prefix}users`
+				WHERE `name` = '$user'
 				LIMIT 1", 
 			$mysql_con);
 	
@@ -23,9 +26,22 @@ function check_login($user, $pass){
 		mysql_free_result($res);
 		return false;
 		}
-	$user = mysql_fetch_assoc($res);
 	
+	
+	$user = mysql_fetch_assoc($res);
 	mysql_free_result($res);
+	
+	
+	$hasher = new PasswordHash(8, FALSE);
+	
+	if(!$hasher->CheckPassword($pass, $user['pass'])){
+		return false;
+		}
+	
+	
+	// do not return the password as part of the user data
+	unset($user['pass']);
+	
 	return $user;
 	}
 
@@ -89,10 +105,17 @@ function list_users(){
 
 
 function add_user($name, $pass, $role='read'){
-	global $mysql_con, $mysql_prefix, $pass_salt;
+	global $mysql_con, $mysql_prefix;
 	
 	$user = mysql_real_escape_string($user, $mysql_con);
-	$pass = md5($pass_salt . $pass);
+	
+	$hasher = new PasswordHash(8, FALSE);
+	
+	$pass = $hasher->HashPassword($pass);
+	
+	if(strlen($pass) < 20) return false;
+	
+	$pass = mysql_real_escape_string($pass);
 	
 	$res = mysql_query(
 			"INSERT INTO `{$mysql_prefix}users`
@@ -116,7 +139,7 @@ function add_user($name, $pass, $role='read'){
 
 
 function del_user($id){
-	global $mysql_con, $mysql_prefix, $pass_salt;
+	global $mysql_con, $mysql_prefix;
 	
 	$id = (int)$id;
 	
@@ -140,7 +163,7 @@ function del_user($id){
 
 
 function user_role($id, $role=false){
-	global $mysql_con, $mysql_prefix, $pass_salt;
+	global $mysql_con, $mysql_prefix;
 	
 	$id = (int)$id;
 	
@@ -180,11 +203,19 @@ function user_role($id, $role=false){
 
 
 
+
 function user_pass($id, $pass){
-	global $mysql_con, $mysql_prefix, $pass_salt;
+	global $mysql_con, $mysql_prefix;
 	
 	$id = (int)$id;
-	$pass = md5($pass_salt . $pass);
+	
+	$hasher = new PasswordHash(8, FALSE);
+	
+	$pass = $hasher->HashPassword($pass);
+	
+	if(strlen($pass) < 20) return false;
+	
+	$pass = mysql_real_escape_string($pass);
 	
 	$res = mysql_query(
 			"UPDATE `{$mysql_prefix}users`

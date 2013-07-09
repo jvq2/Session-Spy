@@ -89,10 +89,14 @@ function add_user($name, $pass, $role='read'){
 	
 	$hasher = new PasswordHash(8, FALSE);
 	
+	$pass = $hasher->HashPassword($pass);
+	
+	if(strlen($pass) < 20) return false;
+	
 	$data['users'][] = array(
 				'id'   => $data['meta']['users-nId']++,
 				'name' => $name,
-				'pass' => $hasher->HashPassword($pass),
+				'pass' => $pass,
 				'role' => $role
 				);
 	
@@ -188,7 +192,11 @@ function user_pass($id, $pass){
 	
 	$hasher = new PasswordHash(8, FALSE);
 	
-	$data['users'][$key]['pass'] = $hasher->HashPassword($pass);
+	$pass = $hasher->HashPassword($pass);
+	
+	if(strlen($pass) < 20) return false;
+	
+	$data['users'][$key]['pass'] = $pass;
 	
 	return ff_write($data);
 	}

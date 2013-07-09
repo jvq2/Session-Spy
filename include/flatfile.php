@@ -242,9 +242,9 @@ if(!file_exists($flatfile_path) && $flatfile_path){
 
 
 
-var_dump(user_role(1));
-echo '<br />';
-var_dump(ff_read());
+//var_dump(user_role(1));
+//echo '<br />';
+//var_dump(ff_read());
 
 
 

@@ -125,10 +125,11 @@ function add_user($name, $pass, $role='read'){
 			$mysql_con);
 	
 	
-	if(!$res || !mysql_insert_id($mysql_con)) return false;
+	if(!$res) return false;
 	
-		
-	return true;
+	$id = mysql_insert_id($mysql_con);
+	
+	return $id ? $id : false;
 	}
 
 

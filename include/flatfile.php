@@ -93,14 +93,16 @@ function add_user($name, $pass, $role='read'){
 	
 	if(strlen($pass) < 20) return false;
 	
+	$id = $data['meta']['users-nId']++;
+	
 	$data['users'][] = array(
-				'id'   => $data['meta']['users-nId']++,
+				'id'   => $id,
 				'name' => $name,
 				'pass' => $pass,
 				'role' => $role
 				);
 	
-	return ff_write($data);
+	return ff_write($data) ? $id : false;
 	}
 
 

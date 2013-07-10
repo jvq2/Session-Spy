@@ -323,6 +323,7 @@ a.session_spy:visited{
 
 #data{
 	line-height: 1.2em;
+	padding: 8px 0;
 	}
 
 .array ul{
@@ -425,6 +426,7 @@ a.session_spy:visited{
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: middle;
+	padding-left: 10px;
 	}
 
 #data .key.string{

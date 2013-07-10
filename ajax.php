@@ -39,42 +39,37 @@
 				$data_a = (array)$data;
 				
 				
-				$keys = array_keys($data_a);
-				
-				$c = count($keys);
 				
 				$new_data['value'] = array();
 				$new_data['class'] = htmlspecialchars($name);
 				
-				for($i = 0; $i < $c; $i++){
-					$k = $keys[$i];
+				$i = 0;
+				
+				foreach($data as $key => $val){
 					$priv = 0;
 					$prot = 0;
 					
-					$k = str_replace("\0". $name ."\0", '', $k, $priv);
+					$k = str_replace("\0". $name ."\0", '', $key, $priv);
 					
 					$k = str_replace("\0*\0", '', $k, $prot);
 					
-					$new_data['value'][$i] = parse_data($data_a[$k]);
+					$new_data['value'][$i] = parse_data($val);
 					$new_data['value'][$i]['key'] = htmlspecialchars($k);
 					$new_data['value'][$i]['flag'] = $priv?'private' : $prot?'protected' : 'public';
 					
-					
+					$i++;
 					}
 				break;
 				
 			case 'array':
 				
-				$keys = array_keys($data);
-				
-				$c = count($keys);
-				
 				$new_data['value'] = array();
 				
-				
-				for($i = 0; $i < $c; $i++){
-					$new_data['value'][$i] = parse_data($data[$keys[$i]]);
-					$new_data['value'][$i]['key'] = htmlspecialchars($keys[$i]);
+				$i = 0;
+				foreach($data as $key => $val){
+					$new_data['value'][$i] = parse_data($val);
+					$new_data['value'][$i]['key'] = htmlspecialchars($key);
+					$i++;
 					}
 					
 				break;
@@ -83,7 +78,7 @@
 				$new_data['value'] = $data;
 				break;
 				
-			default:// other scalar types
+			default: // other scalar types
 				$new_data['value'] = htmlspecialchars($data);
 				break;
 			}
@@ -265,7 +260,7 @@
 			
 			
 			// Strip the file prefix from our list of sessions.
-			// Foreach is handy but more expensive to call for large datasets.
+			// Foreach is handy but uses more memory with large datasets.
 			for($i = 0; $i < $n_sessions; $i++){
 				
 				$t_sid = $sessions[$i];

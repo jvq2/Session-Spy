@@ -13,19 +13,27 @@
 
 	$json_out = array('success' => 0);
 
+
+
 	// only allow request that have past THE TESTS!!!!
 	if(!SPY_SEC){
 		$json_out['error'] = 'Security token not found.';
 		die(json_encode($json_out));
 		}
-	
+
+
+
+
 	function ax_search_list($item){
 		global $ax_search_value, $prefix_n;
 		
 		return strpos($item, $ax_search_value, $prefix_n);
 		}
-	
-	
+
+
+
+
+
 	function parse_data($data){
 		
 		$new_data = array('type' => gettype($data));
@@ -85,9 +93,15 @@
 		
 		return $new_data;
 		}
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	// No action is given
 	if(!isset($_POST['action']) || !$_POST['action']){
 		
@@ -95,11 +109,14 @@
 		
 		die(json_encode($json_out));
 		}
-		
-	
+
+
+
+
 	$action = $_POST['action'];
-	
-	
+
+
+
 	switch($action){
 		
 		case 'del':
@@ -291,6 +308,86 @@
 				}
 				
 			$json_out['users'] = list_users();
+			$json_out['success'] = 1;
+			
+			die(json_encode($json_out));
+		
+		
+		case 'user-add':
+		
+			if(!SPY_ADMIN){
+				$json_out['error'] = 'You are not authorized to view this list.';
+				die(json_encode($json_out));
+				}
+			
+			
+			if(!isset($_POST['user_name']) && !$_POST['user_name']){
+				$json_out['error'] = 'user_name is required';
+				die(json_encode($json_out));
+				}
+				
+			if(!isset($_POST['user_pass']) && !$_POST['user_pass']){
+				$json_out['error'] = 'user_pass is required';
+				die(json_encode($json_out));
+				}
+				
+			if(!isset($_POST['user_pass_cf']) && !$_POST['user_pass_cf']){
+				$json_out['error'] = 'user_pass_cf is required';
+				die(json_encode($json_out));
+				}
+				
+			if(!isset($_POST['user_role']) && !$_POST['user_role']){
+				$json_out['error'] = 'user_role is required';
+				die(json_encode($json_out));
+				}
+			
+			$user_name    = trim($_POST['user_name']);
+			$user_pass    = $_POST['user_pass'];
+			$user_pass_cf = $_POST['user_pass_cf'];
+			$user_role    = $_POST['user_role'];
+			
+			
+			if(strlen($user_name) < 4 || strlen($user_name) > 32){
+				$json_out['error'] = 'User name must be 4-32 characters long';
+				die(json_encode($json_out));
+				}
+			
+			if(!preg_match('/^[a-zA-Z0-9_]+$/', $user_name)){
+				$json_out['error'] = 'User name contains invalid characters. '.
+						'Only letters, numbers, and underscores are allowed.';
+				die(json_encode($json_out));
+				}
+			
+			if(strlen($user_pass) < 6 || strlen($user_pass) > 72){
+				$json_out['error'] = 'Password must be 8-72 characters long';
+				die(json_encode($json_out));
+				}
+			
+			if($user_pass !== $user_pass_cf){
+				$json_out['error'] = 'Passwords do not match.';
+				die(json_encode($json_out));
+				}
+			
+			if($user_role != 'read' && $user_role != 'write' && $user_role != 'admin'){
+				$json_out['error'] = 'User role is not valid.';
+				die(json_encode($json_out));
+				}
+			
+			
+			if(user_exists($user_name)){
+				$json_out['error'] = 'A user with that name already exists.';
+				die(json_encode($json_out));
+				}
+			
+			$user_id = add_user($user_name, $user_pass, $user_role);
+			
+			if(!$user_id){
+				$json_out['error'] = 'An unknown error occurred while adding the user.';
+				die(json_encode($json_out));
+				}
+			
+			$json_out['user_id'] = $user_id;
+			
 			$json_out['success'] = 1;
 			
 			die(json_encode($json_out));

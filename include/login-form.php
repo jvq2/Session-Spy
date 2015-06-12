@@ -18,6 +18,8 @@ if(!defined('INSPY') || INSPY !== true){
 		$(function(){
 			$('#login form img').animate({height: '36px', width: '36px'});
 			
+			$('#user').focus();
+			
 			$('#submit').click(function(event){
 				
 				if(!$('#user').val()){
@@ -57,7 +59,7 @@ if(!defined('INSPY') || INSPY !== true){
 			
 			<img src="images/login-lock.png" />
 			
-			<input type="hidden" name="sec_token" value="<?php echo $_SESSION['sec_token']; ?>" />
+			<input type="hidden" name="sec_token" value="<?php echo $_SESSION['sspy_sec_token']; ?>" />
 			
 			<input type="submit" value="Login" name="login" id="submit" />
 			<br clear="both" />

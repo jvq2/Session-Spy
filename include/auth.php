@@ -11,15 +11,15 @@ session_start();
 
 
 // First page visit. Fill the fresh session.
-if(!isset($_SESSION['logged_in'])){
-	$_SESSION['logged_in'] = false;
-	$_SESSION['sec_token'] = base64_encode(md5(uniqid('8et41sdf87er', true)));
+if(!isset($_SESSION['sspy_logged_in'])){
+	$_SESSION['sspy_logged_in'] = false;
+	$_SESSION['sspy_sec_token'] = base64_encode(md5(uniqid('8et41sdf87er', true)));
 	}
 
 	
 
 // verify security token for all actions.
-if(isset($_REQUEST['sec_token']) && $_REQUEST['sec_token'] == $_SESSION['sec_token']){
+if(isset($_REQUEST['sec_token']) && $_REQUEST['sec_token'] == $_SESSION['sspy_sec_token']){
 	define('SPY_SEC', true);
 }else{
 	define('SPY_SEC', false);
@@ -30,7 +30,7 @@ if(isset($_REQUEST['sec_token']) && $_REQUEST['sec_token'] == $_SESSION['sec_tok
 // Logout
 if(SPY_SEC && isset($_REQUEST['logout'])){
 
-	if($_SESSION['logged_in']){
+	if($_SESSION['sspy_logged_in']){
 		session_unset();
 		}
 	
@@ -53,18 +53,18 @@ if(SPY_SEC && isset($_POST['login'])){
 	if($u){
 		
 		// login success
-		$_SESSION['logged_in'] = true;
+		$_SESSION['sspy_logged_in'] = true;
 		
 		// save user info in session
-		$_SESSION['user'] = $u;
+		$_SESSION['sspy_user'] = $u;
 		
 		// generate a new token when someone logs in
-		$_SESSION['sec_token'] = base64_encode(md5(uniqid('5sdf66g4d6f8g', true)));
+		$_SESSION['sspy_sec_token'] = base64_encode(md5(uniqid('5sdf66g4d6f8g', true)));
 		
 		
 		// if ajax request
 		if(defined('SPY_JSON')){
-			$json_out = array('success' => 1, 'sec_token' => $_SESSION['sec_token']);
+			$json_out = array('success' => 1, 'sec_token' => $_SESSION['sspy_sec_token']);
 			die(json_encode($json_out));
 			}
 		
@@ -78,7 +78,7 @@ if(SPY_SEC && isset($_POST['login'])){
 
 
 
-if(!$_SESSION['logged_in']){
+if(!$_SESSION['sspy_logged_in']){
 	
 	// if the request came from an ajax page...
 	if(defined('SPY_JSON')){
@@ -97,7 +97,7 @@ if(!$_SESSION['logged_in']){
 	
 }else{ // someone is logged in
 	
-	if($_SESSION['user']['role'] == 'admin'){
+	if($_SESSION['sspy_user']['role'] == 'admin'){
 		define('SPY_ADMIN', true);
 	}else{
 		define('SPY_ADMIN', false);

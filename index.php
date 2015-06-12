@@ -11,8 +11,7 @@
 	
 
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -27,7 +26,7 @@
 	
 	<title>Session Spy</title>
 </head>
-<body data-token="<?php echo $_SESSION['sec_token']; ?>" data-role="<?php echo $_SESSION['user']['role']; ?>" data-start-min="<?php echo $default_sess?'true':'false';?>">
+<body data-token="<?php echo $_SESSION['sspy_sec_token']; ?>" data-role="<?php echo $_SESSION['sspy_user']['role']; ?>" data-start-min="<?php echo $default_sess?'true':'false';?>" data-session-id="<?php echo session_id(); ?>">
 	<div class="ui-layout-north header">
 		<a class="session_spy" href="./">Session Spy</a>
 		<button id="logout" title="Logout">Logout</button>
@@ -54,6 +53,10 @@
 			
 			<button class="red" id="delete_session" title="Delete Session">
 				<span>Delete Session</span>
+			</button>
+			
+			<button class="green" title="Add New Session Variable" id="add_var">
+				<span>New Variable</span>
 			</button>
 			
 			<div id="cur_sess"></div>
